@@ -1,6 +1,7 @@
 package com.bignerdranch.android.thegaps.sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -10,12 +11,13 @@ import com.bignerdranch.android.thegaps.TheGaps;
  * Created by nafis on 31-Jul-16.
  */
 public class Ball {
+    private Sound sound;
     private Vector3 postion;
 //  private Vector3 velocity;
 
     private Texture ball;
 
-    private Rectangle bounds;
+    private float temp1 ;
 
     public Texture getBall() {
         return ball;
@@ -25,28 +27,44 @@ public class Ball {
         return postion;
     }
 
+    private Rectangle boundball;
+
     public Ball(int x, int y) {
+        sound = Gdx.audio.newSound(Gdx.files.internal("Blop_sound.mp3"));
 
         postion = new Vector3(x, y, 0);
 //      velocity = new Vector3(0,0,0);
         ball = new Texture("aqua.png");
 
-        bounds = new Rectangle(x, y, ball.getWidth(), ball.getHeight());
+        boundball = new Rectangle(postion.x, postion.y, ball.getWidth(), ball.getHeight());
 
 
     }
+
+
 
     public void update(float dt) {
 
         postion.add(move(), 0, 0);
 
-        if (postion.x > 368) {
-            postion.x = 368;
+        if (postion.x > TheGaps.WIDTH-ball.getWidth()) {
+            postion.x = TheGaps.WIDTH-ball.getWidth();
+            // neds work
+            if (postion.x == TheGaps.WIDTH-ball.getWidth()) {
+              //  sound.play(.5f);
+            }
         }
-        if (postion.x < 0) {
+        if (postion.x < -3) {
             postion.x = -3;
+            //needs work
+            if(postion.x == -3) {
+              //  sound.play(.5f);
+            }
         }
-        bounds.setPosition(postion.x, postion.y);
+        boundball.setPosition(postion.x, postion.y);
+      //for debugg
+        //  System.out.println(boundball.x+"bound,"+postion.x+"ball ");
+
 
     }
 
@@ -61,7 +79,20 @@ public class Ball {
 
     }
 
-    public Rectangle getBounds() {
-         return bounds;
-        }
+    public Rectangle getBounds(){
+        return boundball;
+    }
+
+
+
+
+    public void dispose(){
+        ball.dispose();
+        sound.dispose();
+
+
+    }
+
+
+
 }

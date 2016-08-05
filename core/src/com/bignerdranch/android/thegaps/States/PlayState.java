@@ -1,7 +1,10 @@
 package com.bignerdranch.android.thegaps.States;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.bignerdranch.android.thegaps.TheGaps;
 import com.bignerdranch.android.thegaps.sprites.Ball;
@@ -19,12 +22,17 @@ public class PlayState extends State {
     private Ball ball;
     private Texture background;
     private ArrayList<Blocks> block;
+    public  int points;
+    private String Score;
+    BitmapFont font;
+    public static Preferences prefs;
+
 
     public PlayState(GameStateManager gsm) {
 
          super(gsm);
 
-         ball= new Ball(173,80);
+         ball= new Ball(TheGaps.WIDTH/2,80);
 
          background = new Texture("background.png");
 
@@ -36,18 +44,43 @@ public class PlayState extends State {
             block.add(new Blocks(i*(BLOCK_SPACING + Blocks.BLOCK_HEIGHT )));
          }
 
+            points = 0;
+            Score= "0";
+            font = new BitmapFont();
+            font.getData().setScale(5,5);
+
+            prefs = Gdx.app.getPreferences("saved_highscore");
+
+
+
+
+
     }
 
     @Override
     protected void handleInput() {
         if(Gdx.input.justTouched()){
             ball.move();
+
         }
 
     }
 
     @Override
     public void update(float dt) {
+
+       if(Blocks.TEMP_COUNT == 1) {
+           if ((TheGaps.WIDTH / 2) - 10 <= ball.getPostion().x && ball.getPostion().x <= (TheGaps.WIDTH / 2) + 10) {
+
+               points++;
+               Score = "" + points;
+
+                if(points>prefs.getInteger("high")){
+                    prefs.putInteger("high",points);
+                    prefs.flush();
+                }
+           }
+       }
 
         handleInput();
         ball.update(dt);
@@ -58,25 +91,16 @@ public class PlayState extends State {
         }
         for(Blocks blocks : block){
               if(blocks.getPosBlock().y + Blocks.BLOCK_HEIGHT < 0){
-                   blocks.reposition((TheGaps.WIDTH/2)-blocks.getBlock().getWidth()/2,blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));
+                   blocks.reposition((TheGaps.WIDTH/2)-blocks.getBlock().getWidth()/2, blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));
 
                //for random positioning of the blocks in the x-axis
-                  //blocks.reposition((float) Math.random()*400 - blocks.getBlock().getWidth()  ,blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));
+                 // blocks.reposition((float) (Math.random()*(TheGaps.WIDTH-blocks.getBlock().getWidth()))  ,blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));
                 }
-
-         //    not needed
-//            if(cam.viewportHeight - cam.position.y > blocks.getPosBlock().y + blocks.getBlock().getHeight()){
-//
-//                System.out.print(cam.position.y+","+cam.viewportHeight);
-//
-//                blocks.reposition(blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));
-//
-//            }
-
             if(blocks.collides(ball.getBounds())){
                 System.out.println("colliding");
-//                gsm.set(new PlayState(gsm));
+                gsm.set(new PlayState(gsm));
             }
+
 
 
 
@@ -96,6 +120,8 @@ public class PlayState extends State {
             for(Blocks blocks : block){
                 sb.draw(blocks.getBlock(),blocks.getPosBlock().x,blocks.getPosBlock().y);
             }
+        font.setColor(Color.GOLD);
+        font.draw(sb, Score, TheGaps.WIDTH -100, TheGaps.HEIGHT -10);
 
         sb.end();
 
@@ -103,6 +129,11 @@ public class PlayState extends State {
 
     @Override
     public void dispose() {
+        background.dispose();
+        ball.dispose();
+        for(Blocks blocks : block){
+            blocks.dispose();
+        }
 
     }
 }

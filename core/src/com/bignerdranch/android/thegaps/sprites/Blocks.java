@@ -9,11 +9,13 @@ import com.bignerdranch.android.thegaps.TheGaps;
  * Created by nafis on 02-Aug-16.
  */
 public class Blocks {
+    public static int TEMP_COUNT;
     public static final int BLOCK_HEIGHT = 152;
     private Texture block;
     private Vector2 posBlock;
-    private static final int MOVEMENT = -200;
-    private Rectangle bound;
+    private static final int MOVEMENT = -300;
+
+    private Rectangle boundblock;
 
     public Texture getBlock() {
         return block;
@@ -23,28 +25,52 @@ public class Blocks {
         return posBlock;
     }
 
+
+
     public Blocks(float y){
 
         block = new Texture("block.png");
+
         posBlock = new Vector2(TheGaps.WIDTH/2-block.getWidth()/2, y + TheGaps.HEIGHT);
-        bound = new Rectangle(posBlock.x, posBlock.y, block.getWidth(), block.getHeight());
+        //for random initial positioning
+       // posBlock = new Vector2((float) (Math.random()*(TheGaps.WIDTH-block.getWidth())) , y + TheGaps.HEIGHT);
+        boundblock = new Rectangle(getPosBlock().x,getPosBlock().y, block.getWidth(), block.getHeight());
+
+        //reseting points when new playstate is called
+        TEMP_COUNT = 0;
+
     }
 
     public void reposition(float x,float y){
 
-//        posBlock.set(TheGaps.WIDTH/2 - block.getWidth()/2, y );
+
             posBlock.set(x,y);
-            bound.setPosition(getPosBlock().x,getPosBlock().y);
-    }
-
-    public boolean collides(Rectangle player){
-
-        return bound.overlaps(player);
+            boundblock.setPosition(x,y);
 
     }
+
+
 
     public void update(float dt){
+
             posBlock.add(0,MOVEMENT*dt);
+            boundblock.setPosition(getPosBlock().x,getPosBlock().y);
+
+            //used for scoring
+            if( posBlock.y>80-10 &&posBlock.y<80+10){
+
+                TEMP_COUNT =1;
+            }
+        //for debugg
+//        System.out.println(boundblock.getX()+"bound,"+posBlock.x+"block");
+
     }
+    public boolean collides(Rectangle player){
+            return player.overlaps(boundblock);
+    }
+
+        public void dispose(){
+            block.dispose();
+        }
 
 }
