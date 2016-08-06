@@ -32,7 +32,7 @@ public class PlayState extends State {
 
          super(gsm);
 
-         ball= new Ball(TheGaps.WIDTH/2,80);
+         ball= new Ball(400,80);
 
          background = new Texture("background.png");
 
