@@ -13,7 +13,7 @@ import com.bignerdranch.android.thegaps.TheGaps;
 public class Ball {
     private Sound sound;
     private Vector3 postion;
-//  private Vector3 velocity;
+    private Vector3 velocity;
 
     private Texture ball;
 
@@ -33,7 +33,7 @@ public class Ball {
         sound = Gdx.audio.newSound(Gdx.files.internal("Blop_sound.mp3"));
 
         postion = new Vector3(x, y, 0);
-//      velocity = new Vector3(0,0,0);
+        velocity = new Vector3(0,0,0);
         ball = new Texture("aqua.png");
 
         boundball = new Rectangle(postion.x, postion.y, ball.getWidth(), ball.getHeight());
@@ -45,7 +45,10 @@ public class Ball {
 
     public void update(float dt) {
 
-        postion.add(move(), 0, 0);
+
+        velocity.scl(dt);
+        postion.add(velocity.x, 0, 0);
+        velocity.scl(1/dt);
 
         if (postion.x > TheGaps.WIDTH-ball.getWidth()) {
             postion.x = TheGaps.WIDTH-ball.getWidth();
@@ -54,8 +57,8 @@ public class Ball {
               //  sound.play(.5f);
             }
         }
-        if (postion.x < -3) {
-            postion.x = -3;
+        if (postion.x < 0) {
+            postion.x = 0;
             //needs work
             if(postion.x == -3) {
               //  sound.play(.5f);
@@ -71,12 +74,12 @@ public class Ball {
 
     public float move() {
 
-        if (Gdx.input.getX() > TheGaps.WIDTH / 2) {
-            return 20;
-        } else {
-            return -20;
+        if (postion.x < TheGaps.WIDTH / 2) {
+            velocity.x = 2500;
+        } else if (postion.x >= TheGaps.WIDTH / 2){
+            velocity.x = -2500;
         }
-
+        return 0;
     }
 
     public Rectangle getBounds(){
