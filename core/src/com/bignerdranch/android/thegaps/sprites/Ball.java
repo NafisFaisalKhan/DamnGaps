@@ -57,8 +57,8 @@ public class Ball {
               //  sound.play(.5f);
             }
         }
-        if (postion.x < -3) {
-            postion.x = -3;
+        if (postion.x < 0) {
+            postion.x = 0;
             //needs work
             if(postion.x == -3) {
               //  sound.play(.5f);
