@@ -22,9 +22,9 @@ public class PlayState extends State {
     private Ball ball;
     private Texture background;
     private ArrayList<Blocks> block;
-    public  int points;
-    private String Score;
-    BitmapFont font;
+    public static int points;
+    private String Score,Highscore;
+    BitmapFont font,fonthighscore;
     public static Preferences prefs;
 
 
@@ -47,9 +47,14 @@ public class PlayState extends State {
             points = 0;
             Score= "0";
             font = new BitmapFont();
-            font.getData().setScale(5,5);
+            font.getData().setScale(4,4);
+            fonthighscore = new BitmapFont();
+            fonthighscore.getData().setScale(2,2);
 
             prefs = Gdx.app.getPreferences("saved_highscore");
+            Highscore="Best: 0";
+
+
 
 
 
@@ -70,11 +75,13 @@ public class PlayState extends State {
     public void update(float dt) {
 
        if(Blocks.TEMP_COUNT == 1) {
-           if ((TheGaps.WIDTH / 2) - 20 <= ball.getPostion().x && ball.getPostion().x <= (TheGaps.WIDTH / 2) + 20) {
+           if ((TheGaps.WIDTH / 2) - 15 <= ball.getPostion().x && ball.getPostion().x <= (TheGaps.WIDTH / 2) + 15) {
 
                points++;
                Score = "" + points;
-               if(points>prefs.getInteger("high")){
+
+
+               if( points > prefs.getInteger("high")){
                     prefs.putInteger("high",points);
                     prefs.flush();
                 }
@@ -91,13 +98,13 @@ public class PlayState extends State {
         for(Blocks blocks : block){
               if(blocks.getPosBlock().y + Blocks.BLOCK_HEIGHT < 0){
 
-                  if(points >= 5){
+                  if(points >= 10){
                       //for random positioning of the blocks in the x-axis
                       blocks.reposition((float) (Math.random()*(TheGaps.WIDTH-blocks.getBlock().getWidth()))  ,blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));
-
-                      if(points>=10){
+                     //increases speed
+                      if(points>=15){
                           Blocks.MOVEMENT = -400;
-                          if(points>=15){
+                          if(points>=25){
                               Blocks.MOVEMENT= -500;
                           }
                       }
@@ -113,6 +120,7 @@ public class PlayState extends State {
             }
         }
            cam.update();
+        Highscore = "Best: " + prefs.getInteger("high");
     }
 
     @Override
@@ -127,7 +135,9 @@ public class PlayState extends State {
                 sb.draw(blocks.getBlock(),blocks.getPosBlock().x,blocks.getPosBlock().y);
             }
         font.setColor(Color.GOLD);
-        font.draw(sb, Score, TheGaps.WIDTH -100, TheGaps.HEIGHT -10);
+        font.draw(sb, Score, TheGaps.WIDTH -65, TheGaps.HEIGHT -10);
+        fonthighscore.setColor(Color.GOLD);
+        fonthighscore.draw(sb,Highscore ,TheGaps.WIDTH-115, TheGaps.HEIGHT - 80);
 
         sb.end();
 

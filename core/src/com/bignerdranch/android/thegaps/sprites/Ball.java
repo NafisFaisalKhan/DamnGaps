@@ -16,6 +16,8 @@ public class Ball {
     private Vector3 velocity;
 
     private Texture ball;
+
+
     
 
     public Texture getBall() {
@@ -35,6 +37,8 @@ public class Ball {
         velocity = new Vector3(0,0,0);
         ball = new Texture("aqua.png");
         boundball = new Rectangle(postion.x, postion.y, ball.getWidth()-5, ball.getHeight()-5);
+
+        System.out.println(ball.getWidth()+","+boundball.getWidth());
 
 
     }
