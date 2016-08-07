@@ -16,8 +16,7 @@ public class Ball {
     private Vector3 velocity;
 
     private Texture ball;
-
-    private float temp1 ;
+    
 
     public Texture getBall() {
         return ball;
@@ -30,13 +29,12 @@ public class Ball {
     private Rectangle boundball;
 
     public Ball(int x, int y) {
-        sound = Gdx.audio.newSound(Gdx.files.internal("Blop_sound.mp3"));
 
+        sound = Gdx.audio.newSound(Gdx.files.internal("Blop_sound.mp3"));
         postion = new Vector3(x, y, 0);
         velocity = new Vector3(0,0,0);
         ball = new Texture("aqua.png");
-
-        boundball = new Rectangle(postion.x, postion.y, ball.getWidth(), ball.getHeight());
+        boundball = new Rectangle(postion.x, postion.y, ball.getWidth()-5, ball.getHeight()-5);
 
 
     }
@@ -54,14 +52,14 @@ public class Ball {
             postion.x = TheGaps.WIDTH-ball.getWidth();
             // neds work
             if (postion.x == TheGaps.WIDTH-ball.getWidth()) {
-              //  sound.play(.5f);
+               // sound.play(.5f);
             }
         }
         if (postion.x < 0) {
             postion.x = 0;
             //needs work
             if(postion.x == -3) {
-              //  sound.play(.5f);
+               // sound.play(.5f);
             }
         }
         boundball.setPosition(postion.x, postion.y);

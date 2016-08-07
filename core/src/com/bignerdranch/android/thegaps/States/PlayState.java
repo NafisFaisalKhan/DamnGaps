@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class PlayState extends State {
 
     private static final int BLOCK_SPACING = 100;
-    private static final int BLOCK_COUNTS =4;
+    private static final int BLOCK_COUNTS = 4;
     private Ball ball;
     private Texture background;
     private ArrayList<Blocks> block;
@@ -74,8 +74,7 @@ public class PlayState extends State {
 
                points++;
                Score = "" + points;
-
-                if(points>prefs.getInteger("high")){
+               if(points>prefs.getInteger("high")){
                     prefs.putInteger("high",points);
                     prefs.flush();
                 }
@@ -91,21 +90,19 @@ public class PlayState extends State {
         }
         for(Blocks blocks : block){
               if(blocks.getPosBlock().y + Blocks.BLOCK_HEIGHT < 0){
-                   blocks.reposition((TheGaps.WIDTH/2)-blocks.getBlock().getWidth()/2, blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));
 
-               //for random positioning of the blocks in the x-axis
-                 // blocks.reposition((float) (Math.random()*(TheGaps.WIDTH-blocks.getBlock().getWidth()))  ,blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));
+                  if(points >= 5){
+                      //for random positioning of the blocks in the x-axis
+                      blocks.reposition((float) (Math.random()*(TheGaps.WIDTH-blocks.getBlock().getWidth()))  ,blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));
+                  }
+                        //default postioning
+                  else{ blocks.reposition((TheGaps.WIDTH/2)-blocks.getBlock().getWidth()/2, blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));}
                 }
             if(blocks.collides(ball.getBounds())){
                 System.out.println("colliding");
-                gsm.set(new PlayState(gsm));
+                gsm.set(new GameOverState(gsm));
             }
-
-
-
-
         }
-
            cam.update();
     }
 
