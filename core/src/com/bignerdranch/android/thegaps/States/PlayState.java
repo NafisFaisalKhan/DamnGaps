@@ -70,7 +70,7 @@ public class PlayState extends State {
     public void update(float dt) {
 
        if(Blocks.TEMP_COUNT == 1) {
-           if ((TheGaps.WIDTH / 2) - 10 <= ball.getPostion().x && ball.getPostion().x <= (TheGaps.WIDTH / 2) + 10) {
+           if ((TheGaps.WIDTH / 2) - 20 <= ball.getPostion().x && ball.getPostion().x <= (TheGaps.WIDTH / 2) + 20) {
 
                points++;
                Score = "" + points;
@@ -94,7 +94,16 @@ public class PlayState extends State {
                   if(points >= 5){
                       //for random positioning of the blocks in the x-axis
                       blocks.reposition((float) (Math.random()*(TheGaps.WIDTH-blocks.getBlock().getWidth()))  ,blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));
+
+                      if(points>=10){
+                          Blocks.MOVEMENT = -400;
+                          if(points>=15){
+                              Blocks.MOVEMENT= -500;
+                          }
+                      }
                   }
+
+
                         //default postioning
                   else{ blocks.reposition((TheGaps.WIDTH/2)-blocks.getBlock().getWidth()/2, blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));}
                 }

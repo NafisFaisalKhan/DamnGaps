@@ -13,7 +13,7 @@ public class Blocks {
     public static final int BLOCK_HEIGHT = 152;
     private Texture block;
     private Vector2 posBlock;
-    private static final int MOVEMENT = -300;
+    public static int MOVEMENT = -300;
 
     private Rectangle boundblock;
 

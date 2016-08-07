@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.bignerdranch.android.thegaps.TheGaps;
+import com.bignerdranch.android.thegaps.sprites.Blocks;
 
 /**
  * Created by nafis on 06-Aug-16.
@@ -35,6 +36,7 @@ public class GameOverState extends State {
     @Override
     public void update(float dt) {
         handleInput();
+        Blocks.MOVEMENT = -300;
     }
 
     @Override
