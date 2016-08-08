@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.bignerdranch.android.thegaps.TheGaps;
 import com.bignerdranch.android.thegaps.sprites.Blocks;
 
@@ -19,7 +20,7 @@ public class GameOverState extends State {
     BitmapFont fontscorern;
     BitmapFont fonttaunt;
     private String Highscore,Score,Taunt;
-    private String[] exclamations = {"LMFAO!","LMAO!","LOL!","HEHE!","TRIED!","OK!","SHIT GOT REAL!","DAMN!","DAMN SON!"};
+    private String[] exclamations = {"You weak, pathetic fool.","You spoony bard!","Frankly, Im ashamed.","“You have died of dysentery”","Requiescat in pace","Revive me!","Prepare for unforseen consequences.","Would you kindly?","A winner is you.","All your base are belong to us."};
     private  Texture retry;
 
 
@@ -46,14 +47,22 @@ public class GameOverState extends State {
         fontscorern = new BitmapFont();
         fontscorern.getData().setScale(3,5);
         fonttaunt = new BitmapFont();
-        fonttaunt.getData().setScale(7,7);
+        fonttaunt.getData().setScale(2,2);
         Blocks.MOVEMENT = -300;
     }
 
     @Override
     protected void handleInput() {
-        if (Gdx.input.justTouched()){
-            gsm.set(new MenuState(gsm));
+        if(Gdx.input.justTouched()){
+
+            Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
+
+            if(tmp.x >600 && tmp.x<800 && tmp.y >2200 && tmp.y< 2400)
+            {
+                gsm.set(new PlayState(gsm));
+            }
+
+
         }
     }
 
@@ -69,15 +78,29 @@ public class GameOverState extends State {
             Taunt = exclamations[0];
         }else if(PlayState.points < 10){
             Taunt = exclamations[1];
-        }else if(PlayState.points<20){
+        }else if(PlayState.points < 15){
             Taunt = exclamations[2];
-        }
+        }else if(PlayState.points < 20){
+            Taunt = exclamations[3];
+        }else if(PlayState.points < 20){
+            Taunt = exclamations[4];
+        }else if(PlayState.points < 25){
+            Taunt = exclamations[5];
+        }else if(PlayState.points < 30){
+            Taunt = exclamations[6];
+        }else if(PlayState.points < 35){
+            Taunt = exclamations[7];
+        }else if(PlayState.points < 40){
+            Taunt = exclamations[8];
+        }else if(PlayState.points < 45){
+            Taunt = exclamations[9];
+        }else
+            Taunt = exclamations[10];
 
     }
 
     @Override
     public void render(SpriteBatch sb) {
-
         sb.begin();
         sb.draw(background,0,0, TheGaps.WIDTH,TheGaps.HEIGHT);
         font.setColor(Color.WHITE);
@@ -89,6 +112,7 @@ public class GameOverState extends State {
         fonttaunt.setColor(Color.WHITE);
         fonttaunt.draw(sb,Taunt,20,300);
         sb.draw(retry,TheGaps.WIDTH/2 - retry.getWidth()/2,20);
+        //System.out.println(TheGaps.WIDTH/2 - retry.getWidth()/2);
         sb.end();
     }
 
