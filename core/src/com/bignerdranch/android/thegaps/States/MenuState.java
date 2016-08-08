@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.bignerdranch.android.thegaps.TheGaps;
 
 /**
@@ -22,7 +24,16 @@ public class MenuState extends State {
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()){
-            gsm.set(new PlayState(gsm));
+
+            Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
+            cam.unproject(tmp);
+            Rectangle textureBounds=new Rectangle((TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2),playbtn.getWidth(),playbtn.getHeight());
+
+            if(textureBounds.contains(tmp.x,tmp.y))
+            {
+                gsm.set(new PlayState(gsm));
+            }
+
 
         }
     }
