@@ -12,5 +12,7 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.disableAudio =false;
 		initialize(new TheGaps(), config);
+
+
 	}
 }
