@@ -38,7 +38,7 @@ public class Ball {
         ball = new Texture("aqua.png");
         boundball = new Rectangle(postion.x, postion.y, ball.getWidth()-5, ball.getHeight()-5);
 
-        System.out.println(ball.getWidth()+","+boundball.getWidth());
+       // System.out.println(ball.getWidth()+","+boundball.getWidth());
 
 
     }

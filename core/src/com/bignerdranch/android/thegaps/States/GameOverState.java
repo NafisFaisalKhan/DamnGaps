@@ -28,7 +28,7 @@ public class GameOverState extends State {
         super(gsm);
 
         background= new Texture("background.png");
-        retry = new Texture("retry_icon.png");
+        retry = new Texture("retry2.png");
 
         Gameover = "Gameover!";
         font = new BitmapFont();
@@ -55,13 +55,11 @@ public class GameOverState extends State {
     protected void handleInput() {
         if(Gdx.input.justTouched()){
 
-            Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
 
-            if(tmp.x >600 && tmp.x<800 && tmp.y >2200 && tmp.y< 2400)
-            {
-                gsm.set(new PlayState(gsm));
-            }
-
+            Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
+                    if(tmp.x > 600 && tmp.x < 800 && tmp.y>2200&&tmp.y<2400){
+                           gsm.set(new MenuState(gsm));
+                    }
 
         }
     }
@@ -97,19 +95,20 @@ public class GameOverState extends State {
         }else
             Taunt = exclamations[10];
 
+
     }
 
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background,0,0, TheGaps.WIDTH,TheGaps.HEIGHT);
-        font.setColor(Color.WHITE);
+        font.setColor(Color.BLACK);
         font.draw(sb, Gameover, 30, 600);
-        fontscorern.setColor(Color.WHITE);
+        fontscorern.setColor(Color.BLACK);
         fontscorern.draw(sb,Score,30,500);
-        fontscore.setColor(Color.WHITE);
+        fontscore.setColor(Color.BLACK);
         fontscore.draw(sb,Highscore,30,400);
-        fonttaunt.setColor(Color.WHITE);
+        fonttaunt.setColor(Color.BLACK);
         fonttaunt.draw(sb,Taunt,20,300);
         sb.draw(retry,TheGaps.WIDTH/2 - retry.getWidth()/2,20);
         //System.out.println(TheGaps.WIDTH/2 - retry.getWidth()/2);

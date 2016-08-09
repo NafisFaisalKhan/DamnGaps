@@ -75,7 +75,7 @@ public class PlayState extends State {
     public void update(float dt) {
 
        if(Blocks.TEMP_COUNT == 1) {
-           if ((TheGaps.WIDTH / 2) - 15 <= ball.getPostion().x && ball.getPostion().x <= (TheGaps.WIDTH / 2) + 15) {
+           if ((TheGaps.WIDTH / 2) - 20 <= ball.getPostion().x && ball.getPostion().x <= (TheGaps.WIDTH / 2) + 20) {
 
                points++;
                Score = "" + points;
@@ -106,14 +106,19 @@ public class PlayState extends State {
                           Blocks.MOVEMENT = -400;
                           if(points>=25){
                               Blocks.MOVEMENT= -500;
+                              if(points>=35){
+                                  Blocks.MOVEMENT= -600;
+                                  if(points>=45){
+                                      Blocks.MOVEMENT= -700;
+                                  }
+                              }
                           }
                       }
                   }
-
-
                         //default postioning
                   else{ blocks.reposition((TheGaps.WIDTH/2)-blocks.getBlock().getWidth()/2, blocks.getPosBlock().y +((Blocks.BLOCK_HEIGHT + BLOCK_SPACING )* BLOCK_COUNTS));}
-                }
+              }
+
             if(blocks.collides(ball.getBounds())){
                 System.out.println("colliding");
                 gsm.set(new GameOverState(gsm));
@@ -134,9 +139,9 @@ public class PlayState extends State {
             for(Blocks blocks : block){
                 sb.draw(blocks.getBlock(),blocks.getPosBlock().x,blocks.getPosBlock().y);
             }
-        font.setColor(Color.GOLD);
+        font.setColor(Color.BLACK);
         font.draw(sb, Score, TheGaps.WIDTH -65, TheGaps.HEIGHT -10);
-        fonthighscore.setColor(Color.GOLD);
+        fonthighscore.setColor(Color.BLACK);
         fonthighscore.draw(sb,Highscore ,TheGaps.WIDTH-115, TheGaps.HEIGHT - 80);
 
         sb.end();
