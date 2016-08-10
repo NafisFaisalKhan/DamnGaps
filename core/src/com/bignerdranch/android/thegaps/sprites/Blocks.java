@@ -11,6 +11,7 @@ import com.bignerdranch.android.thegaps.TheGaps;
 public class Blocks {
     public static int TEMP_COUNT;
     public static final int BLOCK_HEIGHT = 152;
+    public static final int BLOCK_WIDTH=56;
     private Texture block;
     private Vector2 posBlock;
     public static int MOVEMENT = -300;
@@ -29,7 +30,7 @@ public class Blocks {
 
     public Blocks(float y){
 
-        block = new Texture("block3.png");
+        block = new Texture("block.png");
 
         posBlock = new Vector2(TheGaps.WIDTH/2-block.getWidth()/2, y + TheGaps.HEIGHT);
         //for random initial positioning

@@ -17,11 +17,11 @@ import java.util.ArrayList;
  */
 public class PlayState extends State {
 
-    private static final int BLOCK_SPACING = 100;
-    private static final int BLOCK_COUNTS = 4;
+    public static final int BLOCK_SPACING = 100;
+    public static final int BLOCK_COUNTS = 4;
     private Ball ball;
     private Texture background;
-    private ArrayList<Blocks> block;
+    public ArrayList<Blocks> block;
     public static int points;
     private String Score,Highscore;
     BitmapFont font,fonthighscore;
@@ -34,7 +34,7 @@ public class PlayState extends State {
 
          ball= new Ball(400,80);
 
-         background = new Texture("background3.png");
+         background = new Texture("background.png");
 
          cam.setToOrtho(false,TheGaps.WIDTH,TheGaps.HEIGHT);
 
@@ -51,8 +51,10 @@ public class PlayState extends State {
             fonthighscore = new BitmapFont();
             fonthighscore.getData().setScale(2,2);
             prefs = Gdx.app.getPreferences("saved_highscore");
-            prefs.putInteger("high",0);
-            prefs.flush();
+            if(prefs.getInteger("high")== 0){
+                prefs.putInteger("high",0);
+                prefs.flush();
+            }
             Highscore="Best: 0";
 
     }
@@ -75,9 +77,11 @@ public class PlayState extends State {
                points++;
                Score = "" + points;
 
+
                if(points > prefs.getInteger("high")){
                     prefs.putInteger("high",points);
                     prefs.flush();
+
                }
            }
        }
@@ -150,9 +154,11 @@ public class PlayState extends State {
     public void dispose() {
         background.dispose();
         ball.dispose();
+
         for(Blocks blocks : block){
             blocks.dispose();
         }
+
 
     }
 }

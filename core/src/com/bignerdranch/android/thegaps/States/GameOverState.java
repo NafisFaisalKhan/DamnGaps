@@ -27,7 +27,7 @@ public class GameOverState extends State {
     protected GameOverState(GameStateManager gsm) {
         super(gsm);
 
-        background= new Texture("background3.png");
+        background= new Texture("background.png");
         retry = new Texture("retry2.png");
 
         Gameover = "Gameover!";
