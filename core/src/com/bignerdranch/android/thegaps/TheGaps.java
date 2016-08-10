@@ -11,7 +11,7 @@ public class TheGaps extends ApplicationAdapter {
 
 	public static final int WIDTH = 400;
 	public static final int HEIGHT= 800;
-	public static final String TTILE="Them Gaps ! ";
+	public static final String TTILE="ThemGaps ! ";
 	private SpriteBatch batch;
 
 	private GameStateManager gsm;

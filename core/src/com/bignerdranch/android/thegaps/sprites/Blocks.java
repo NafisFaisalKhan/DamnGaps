@@ -29,7 +29,7 @@ public class Blocks {
 
     public Blocks(float y){
 
-        block = new Texture("block.png");
+        block = new Texture("block3.png");
 
         posBlock = new Vector2(TheGaps.WIDTH/2-block.getWidth()/2, y + TheGaps.HEIGHT);
         //for random initial positioning

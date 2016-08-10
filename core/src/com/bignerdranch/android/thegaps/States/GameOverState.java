@@ -27,7 +27,7 @@ public class GameOverState extends State {
     protected GameOverState(GameStateManager gsm) {
         super(gsm);
 
-        background= new Texture("background.png");
+        background= new Texture("background3.png");
         retry = new Texture("retry2.png");
 
         Gameover = "Gameover!";
@@ -90,10 +90,9 @@ public class GameOverState extends State {
             Taunt = exclamations[7];
         }else if(PlayState.points < 40){
             Taunt = exclamations[8];
-        }else if(PlayState.points < 45){
+        }else{
             Taunt = exclamations[9];
-        }else
-            Taunt = exclamations[10];
+        }
 
 
     }

@@ -34,7 +34,7 @@ public class PlayState extends State {
 
          ball= new Ball(400,80);
 
-         background = new Texture("background.png");
+         background = new Texture("background3.png");
 
          cam.setToOrtho(false,TheGaps.WIDTH,TheGaps.HEIGHT);
 
@@ -50,15 +50,10 @@ public class PlayState extends State {
             font.getData().setScale(4,4);
             fonthighscore = new BitmapFont();
             fonthighscore.getData().setScale(2,2);
-
             prefs = Gdx.app.getPreferences("saved_highscore");
+            prefs.putInteger("high",0);
+            prefs.flush();
             Highscore="Best: 0";
-
-
-
-
-
-
 
     }
 
@@ -80,17 +75,14 @@ public class PlayState extends State {
                points++;
                Score = "" + points;
 
-
-               if( points > prefs.getInteger("high")){
+               if(points > prefs.getInteger("high")){
                     prefs.putInteger("high",points);
                     prefs.flush();
-                }
+               }
            }
        }
-
         handleInput();
         ball.update(dt);
-
 
         for(int i=0 ; i<BLOCK_COUNTS ; i++){
             block.get(i).update(dt);
@@ -105,11 +97,17 @@ public class PlayState extends State {
                       if(points>=15){
                           Blocks.MOVEMENT = -400;
                           if(points>=25){
-                              Blocks.MOVEMENT= -500;
+                              Blocks.MOVEMENT= -450;
                               if(points>=35){
-                                  Blocks.MOVEMENT= -600;
+                                  Blocks.MOVEMENT= -500;
                                   if(points>=45){
-                                      Blocks.MOVEMENT= -700;
+                                      Blocks.MOVEMENT= -550;
+                                      if(points>=50){
+                                          Blocks.MOVEMENT= -600;
+                                          if(points>=60){
+                                              Blocks.MOVEMENT= -700;
+                                          }
+                                      }
                                   }
                               }
                           }

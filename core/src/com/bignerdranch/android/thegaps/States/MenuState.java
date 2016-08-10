@@ -41,14 +41,12 @@ public class MenuState extends State {
     public MenuState(GameStateManager gsm) {
         super(gsm);
         cam.setToOrtho(false,TheGaps.WIDTH,TheGaps.HEIGHT);
-        background= new Texture("background.png");
+        background= new Texture("background3.png");
         playbtn = new Texture("playbtn2.png");
 
 
 
-//
-//        font = new BitmapFont();
-//        font.getData().setScale(5,5);
+
 
 
 
@@ -70,8 +68,7 @@ public class MenuState extends State {
         sb.draw(playbtn,(TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2));
 
 
-//                font.setColor(Color.GOLD);
-//                font.draw(sb, highscore, TheGaps.WIDTH / 3, TheGaps.HEIGHT / 3);
+
 
         sb.end();
     }
