@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.bignerdranch.android.thegaps.TheGaps;
 import com.bignerdranch.android.thegaps.sprites.Blocks;
@@ -29,7 +30,7 @@ public class GameOverState extends State {
 
         background= new Texture("background.png");
         retry = new Texture("retry2.png");
-
+        cam.setToOrtho(false,TheGaps.WIDTH,TheGaps.HEIGHT);
         Gameover = "Gameover!";
         font = new BitmapFont();
         font.getData().setScale(5,5);
@@ -56,10 +57,20 @@ public class GameOverState extends State {
         if(Gdx.input.justTouched()){
 
 
-            Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
-                    if(tmp.x > 600 && tmp.x < 800 && tmp.y>2200&&tmp.y<2400){
-                           gsm.set(new MenuState(gsm));
-                    }
+//            Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
+//                    if(tmp.x > 600 && tmp.x < 800 && tmp.y>2200&&tmp.y<2400){
+//                           gsm.set(new MenuState(gsm));
+//                    }
+            Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
+            cam.unproject(tmp);
+            Rectangle textureBounds = new Rectangle((TheGaps.WIDTH/2)-(retry.getWidth()/2),20,retry.getWidth(),retry.getHeight());
+
+            if(textureBounds.contains(tmp.x,tmp.y))
+            {
+                System.out.println();
+                gsm.set(new MenuState(gsm));
+            }
+
 
         }
     }
@@ -99,6 +110,7 @@ public class GameOverState extends State {
 
     @Override
     public void render(SpriteBatch sb) {
+        sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background,0,0, TheGaps.WIDTH,TheGaps.HEIGHT);
         font.setColor(Color.BLACK);
