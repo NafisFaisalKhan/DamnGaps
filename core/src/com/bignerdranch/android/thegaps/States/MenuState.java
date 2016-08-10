@@ -86,6 +86,11 @@ public class MenuState extends State {
         background.dispose();
         playbtn.dispose();
 
+        for(MenuBlocks blocks : block){
+            blocks.dispose();
+        }
+
+
     }
 
 }
