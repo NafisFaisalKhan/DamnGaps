@@ -15,6 +15,7 @@ public class Blocks {
     private Texture block;
     private Vector2 posBlock;
     public static int MOVEMENT = -300;
+    public static String mBlocks;
 
     private Rectangle boundblock;
 
@@ -30,7 +31,7 @@ public class Blocks {
 
     public Blocks(float y){
 
-        block = new Texture("block.png");
+        block = new Texture(mBlocks);
 
         posBlock = new Vector2(TheGaps.WIDTH/2-block.getWidth()/2, y + TheGaps.HEIGHT);
         //for random initial positioning

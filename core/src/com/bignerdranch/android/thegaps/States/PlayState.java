@@ -11,6 +11,7 @@ import com.bignerdranch.android.thegaps.sprites.Ball;
 import com.bignerdranch.android.thegaps.sprites.Blocks;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by nafis on 31-Jul-16.
@@ -26,15 +27,17 @@ public class PlayState extends State {
     private String Score,Highscore;
     BitmapFont font,fonthighscore;
     public static Preferences prefs;
-
+    private static String mBackground;
 
     public PlayState(GameStateManager gsm) {
 
          super(gsm);
 
+         randomizer();
+
          ball= new Ball(400,80);
 
-         background = new Texture("background.png");
+         background = new Texture(mBackground);
 
          cam.setToOrtho(false,TheGaps.WIDTH,TheGaps.HEIGHT);
 
@@ -63,7 +66,6 @@ public class PlayState extends State {
     protected void handleInput() {
         if(Gdx.input.justTouched()){
             ball.move();
-
         }
 
     }
@@ -160,5 +162,44 @@ public class PlayState extends State {
         }
 
 
+    }
+
+    private void randomizer(){
+        Random rand = new Random();
+
+        int randomNum = rand.nextInt((5 - 1) + 1) + 1;
+
+        switch (randomNum){
+            case 1: {
+                mBackground = "background.png";
+                Blocks.mBlocks = "block.png";
+                break;
+            }
+            case 2: {
+                mBackground = "background2.png";
+                Blocks.mBlocks = "block3.png";
+                break;
+            }
+            case 3: {
+                mBackground = "background3.png";
+                Blocks.mBlocks = "block2.png";
+                break;
+            }
+            case 4: {
+                mBackground = "op-bk2.jpg";
+                Blocks.mBlocks = "block.png";
+                break;
+            }
+            case 5: {
+                mBackground = "op-bk.jpg";
+                Blocks.mBlocks = "block2.png";
+                break;
+            }
+            default:{
+                mBackground = "background.png";
+                Blocks.mBlocks = "block.png";
+                break;
+            }
+        }
     }
 }

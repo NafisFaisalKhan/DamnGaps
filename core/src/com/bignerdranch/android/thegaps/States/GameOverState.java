@@ -21,7 +21,7 @@ public class GameOverState extends State {
     BitmapFont fontscorern;
     BitmapFont fonttaunt;
     private String Highscore,Score,Taunt;
-    private String[] exclamations = {"You weak, pathetic fool.","You spoony bard!","Frankly, Im ashamed.","“You have died of dysentery”","Requiescat in pace","Revive me!","Prepare for unforseen consequences.","Would you kindly?","A winner is you.","All your base are belong to us."};
+    private String[] exclamations = {"Noob","You can do better","Try again","Getting there.","“Not bad”","Quite impressive","GG","Try hard","Almost there","A winner is you"};
     private  Texture retry;
 
 
@@ -48,7 +48,7 @@ public class GameOverState extends State {
         fontscorern = new BitmapFont();
         fontscorern.getData().setScale(3,5);
         fonttaunt = new BitmapFont();
-        fonttaunt.getData().setScale(2,2);
+        fonttaunt.getData().setScale(3,4);
         Blocks.MOVEMENT = -300;
     }
 
@@ -57,10 +57,7 @@ public class GameOverState extends State {
         if(Gdx.input.justTouched()){
 
 
-//            Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
-//                    if(tmp.x > 600 && tmp.x < 800 && tmp.y>2200&&tmp.y<2400){
-//                           gsm.set(new MenuState(gsm));
-//                    }
+
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
             cam.unproject(tmp);
             Rectangle textureBounds = new Rectangle((TheGaps.WIDTH/2)-(retry.getWidth()/2),20,retry.getWidth(),retry.getHeight());
@@ -68,7 +65,7 @@ public class GameOverState extends State {
             if(textureBounds.contains(tmp.x,tmp.y))
             {
                 System.out.println();
-                gsm.set(new MenuState(gsm));
+                gsm.set(new PlayState(gsm));
             }
 
 
