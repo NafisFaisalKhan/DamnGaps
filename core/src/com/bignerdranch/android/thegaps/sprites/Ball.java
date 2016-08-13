@@ -26,6 +26,10 @@ public class Ball {
         return ball;
     }
 
+    public void setPosition(float x){
+        postion.x = x;
+    }
+
     public Vector3 getPostion() {
         return postion;
     }
@@ -56,17 +60,14 @@ public class Ball {
 
         if (postion.x > TheGaps.WIDTH-ball.getWidth()) {
             postion.x = TheGaps.WIDTH-ball.getWidth();
-            // neds work
-            if (postion.x == TheGaps.WIDTH-ball.getWidth()) {
-               // sound.play(.5f);
-            }
+            sound.play(.1f);
+
+
         }
         if (postion.x < 0) {
             postion.x = 0;
-            //needs work
-            if(postion.x == -3) {
-               // sound.play(.5f);
-            }
+            sound.play(.1f);
+
         }
         boundball.setPosition(postion.x, postion.y);
       //for debugg

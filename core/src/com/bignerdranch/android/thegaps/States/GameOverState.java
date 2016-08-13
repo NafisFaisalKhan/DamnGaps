@@ -64,7 +64,6 @@ public class GameOverState extends State {
 
             if(textureBounds.contains(tmp.x,tmp.y))
             {
-                System.out.println();
                 gsm.set(new PlayState(gsm));
             }
 

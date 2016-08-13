@@ -27,8 +27,6 @@ public class Blocks {
         return posBlock;
     }
 
-
-
     public Blocks(float y){
 
         block = new Texture(mBlocks);
@@ -42,12 +40,20 @@ public class Blocks {
         TEMP_COUNT = 0;
 
     }
+    public Blocks(float x, float y){
+        block = new Texture(mBlocks);
+
+        posBlock = new Vector2(x, y + TheGaps.HEIGHT);
+        //for random initial positioning
+        // posBlock = new Vector2((float) (Math.random()*(TheGaps.WIDTH-block.getWidth())) , y + TheGaps.HEIGHT);
+        boundblock = new Rectangle(getPosBlock().x,getPosBlock().y, block.getWidth(), block.getHeight());
+    }
 
     public void reposition(float x,float y){
 
 
             posBlock.set(x,y);
-            boundblock.setPosition(x,y);
+            boundblock.setPosition(getPosBlock().x,getPosBlock().y);
 
     }
 
