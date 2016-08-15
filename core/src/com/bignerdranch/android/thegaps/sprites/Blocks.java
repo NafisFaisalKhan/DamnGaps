@@ -13,11 +13,14 @@ public class Blocks {
     public static final int BLOCK_HEIGHT = 152;
     public static final int BLOCK_WIDTH=56;
     private Texture block;
+
     private Vector2 posBlock;
+
     public static int MOVEMENT = -300;
     public static String mBlocks;
 
     private Rectangle boundblock;
+
 
     public Texture getBlock() {
         return block;
@@ -32,6 +35,7 @@ public class Blocks {
         block = new Texture(mBlocks);
 
         posBlock = new Vector2(TheGaps.WIDTH/2-block.getWidth()/2, y + TheGaps.HEIGHT);
+
         //for random initial positioning
        // posBlock = new Vector2((float) (Math.random()*(TheGaps.WIDTH-block.getWidth())) , y + TheGaps.HEIGHT);
         boundblock = new Rectangle(getPosBlock().x,getPosBlock().y, block.getWidth(), block.getHeight());
@@ -44,14 +48,11 @@ public class Blocks {
         block = new Texture(mBlocks);
 
         posBlock = new Vector2(x, y + TheGaps.HEIGHT);
-        //for random initial positioning
-        // posBlock = new Vector2((float) (Math.random()*(TheGaps.WIDTH-block.getWidth())) , y + TheGaps.HEIGHT);
+
         boundblock = new Rectangle(getPosBlock().x,getPosBlock().y, block.getWidth(), block.getHeight());
     }
 
     public void reposition(float x,float y){
-
-
             posBlock.set(x,y);
             boundblock.setPosition(getPosBlock().x,getPosBlock().y);
 
@@ -62,10 +63,11 @@ public class Blocks {
     public void update(float dt){
 
             posBlock.add(0,MOVEMENT*dt);
+
             boundblock.setPosition(getPosBlock().x,getPosBlock().y);
 
             //used for scoring
-            if( posBlock.y>80-10 &&posBlock.y<80+10){
+            if( posBlock.y>80-10 && posBlock.y<80+10){
 
                 TEMP_COUNT =1;
             }
@@ -74,11 +76,14 @@ public class Blocks {
 
     }
     public boolean collides(Rectangle player){
+
             return player.overlaps(boundblock);
     }
 
-        public void dispose(){
+        public void dispose() {
             block.dispose();
+
+
         }
 
 }

@@ -21,19 +21,20 @@ public class GameOverState extends State {
     BitmapFont fontscorern;
     BitmapFont fonttaunt;
     private String Highscore,Score,Taunt;
-    private String[] exclamations = {"Noob","You can do better","Try again","Getting there.","“Not bad”","Quite impressive","GG","Try hard","Almost there","A winner is you"};
+    private String[] exclamations = {"Noob","LOL!","Try again","Getting there.","“Not bad”","Quite impressive","GG","Try hard","Almost there","A winner is you"};
     private  Texture retry;
 
 
     protected GameOverState(GameStateManager gsm) {
         super(gsm);
 
-        background= new Texture("background.png");
+        background = new Texture("background4.png");
         retry = new Texture("retry2.png");
         cam.setToOrtho(false,TheGaps.WIDTH,TheGaps.HEIGHT);
         Gameover = "Gameover!";
         font = new BitmapFont();
         font.getData().setScale(5,5);
+
 
         if (PlayState.prefs.contains("high")) {
 
@@ -56,14 +57,13 @@ public class GameOverState extends State {
     protected void handleInput() {
         if(Gdx.input.justTouched()){
 
-
-
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
             cam.unproject(tmp);
             Rectangle textureBounds = new Rectangle((TheGaps.WIDTH/2)-(retry.getWidth()/2),20,retry.getWidth(),retry.getHeight());
 
             if(textureBounds.contains(tmp.x,tmp.y))
             {
+                PlayState.x=0;
                 gsm.set(new PlayState(gsm));
             }
 
@@ -75,33 +75,31 @@ public class GameOverState extends State {
     public void update(float dt) {
         handleInput();
         setTaunt();
-
     }
 
     public void setTaunt(){
-        if (PlayState.points < 5){
+
+        if (PlayState.points < 10){
             Taunt = exclamations[0];
-        }else if(PlayState.points < 10){
+        }else if(PlayState.points < 20){
             Taunt = exclamations[1];
-        }else if(PlayState.points < 15){
-            Taunt = exclamations[2];
-        }else if(PlayState.points < 20){
-            Taunt = exclamations[3];
-        }else if(PlayState.points < 20){
-            Taunt = exclamations[4];
-        }else if(PlayState.points < 25){
-            Taunt = exclamations[5];
         }else if(PlayState.points < 30){
-            Taunt = exclamations[6];
-        }else if(PlayState.points < 35){
-            Taunt = exclamations[7];
+            Taunt = exclamations[2];
         }else if(PlayState.points < 40){
+            Taunt = exclamations[3];
+        }else if(PlayState.points < 50){
+            Taunt = exclamations[4];
+        }else if(PlayState.points < 60){
+            Taunt = exclamations[5];
+        }else if(PlayState.points < 70){
+            Taunt = exclamations[6];
+        }else if(PlayState.points < 80){
+            Taunt = exclamations[7];
+        }else if(PlayState.points < 90){
             Taunt = exclamations[8];
         }else{
             Taunt = exclamations[9];
         }
-
-
     }
 
     @Override
@@ -124,6 +122,13 @@ public class GameOverState extends State {
 
     @Override
     public void dispose() {
+        background.dispose();
+        retry.dispose();
+        font.dispose();
+        fonttaunt.dispose();
+        fontscore.dispose();
+        fontscorern.dispose();
+
 
     }
 }

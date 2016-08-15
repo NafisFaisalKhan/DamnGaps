@@ -18,9 +18,10 @@ public class Ball {
     private Vector3 velocity;
     private static String mBall;
     private Texture ball;
+    public int x = 1;
+    public int y = 0;
 
 
-    
 
     public Texture getBall() {
         return ball;
@@ -43,16 +44,9 @@ public class Ball {
         velocity = new Vector3(0,0,0);
         ball = new Texture(mBall);
         boundball = new Rectangle(postion.x, postion.y, ball.getWidth()-5, ball.getHeight()-5);
-
-       // System.out.println(ball.getWidth()+","+boundball.getWidth());
-
-
     }
 
-
-
     public void update(float dt) {
-
 
         velocity.scl(dt);
         postion.add(velocity.x, 0, 0);
@@ -60,27 +54,36 @@ public class Ball {
 
         if (postion.x > TheGaps.WIDTH-ball.getWidth()) {
             postion.x = TheGaps.WIDTH-ball.getWidth();
-            sound.play(.1f);
-
 
         }
         if (postion.x < 0) {
             postion.x = 0;
-            sound.play(.1f);
 
         }
         boundball.setPosition(postion.x, postion.y);
-      //for debugg
-        //  System.out.println(boundball.x+"bound,"+postion.x+"ball ");
 
+        if (postion.x < TheGaps.WIDTH/2+150 && postion.x > TheGaps.WIDTH/2+100 && x == 0 && y==1){
+                sound.play(.5f);
 
+            x=1;
+            y=0;
+
+        }
+       else if (postion.x < TheGaps.WIDTH/2-150 && postion.x > TheGaps.WIDTH/2-200 && x==1 && y==0){
+                sound.play(.5f);
+
+           x=0;
+           y=1;
+        }
     }
 
     public float move() {
 
         if (postion.x < TheGaps.WIDTH / 2) {
+
             velocity.x = 2500;
         } else if (postion.x >= TheGaps.WIDTH / 2){
+
             velocity.x = -2500;
         }
         return 0;
@@ -140,7 +143,6 @@ public class Ball {
     public void dispose(){
         ball.dispose();
         sound.dispose();
-
 
     }
 

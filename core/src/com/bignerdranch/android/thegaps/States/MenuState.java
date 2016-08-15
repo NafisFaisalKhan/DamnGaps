@@ -1,6 +1,7 @@
 package com.bignerdranch.android.thegaps.States;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -18,6 +19,7 @@ public class MenuState extends State {
     private Texture background;
     private Texture playbtn;
     public ArrayList<MenuBlocks> block;
+    private Sound sound;
 
 
     @Override
@@ -30,6 +32,7 @@ public class MenuState extends State {
 
             if(textureBounds.contains(tmp.x,tmp.y))
             {
+               // sound.play(.5f);
                 gsm.set(new PlayState(gsm));
             }
 
@@ -46,6 +49,7 @@ public class MenuState extends State {
         for(int i = 0; i < PlayState.BLOCK_COUNTS;i++){
             block.add(new MenuBlocks(i*(PlayState.BLOCK_SPACING + Blocks.BLOCK_HEIGHT )));
         }
+        sound = Gdx.audio.newSound(Gdx.files.internal("Blop_sound.ogg"));
     }
 
     @Override
@@ -74,9 +78,6 @@ public class MenuState extends State {
         for(MenuBlocks blocks : block){
             sb.draw(blocks.getBlock(),blocks.getPosBlock().x,blocks.getPosBlock().y);
         }
-
-
-
         sb.end();
     }
 

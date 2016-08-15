@@ -35,6 +35,8 @@ public class PlayState extends State {
     private static String mBackground;
     public static int pause = 0;
     private PauseState pauseState;
+    public static int x = 0;
+
 
     public PlayState(GameStateManager gsm) {
 
@@ -54,12 +56,12 @@ public class PlayState extends State {
          playbtn = new Texture("playbtn2.png");
          bk = new Texture("pausebk.png");
 
-         for(int i = 0; i< BLOCK_COUNTS;i++){
-            block.add(new Blocks(i*(BLOCK_SPACING + Blocks.BLOCK_HEIGHT )));
+          for(int i = 0; i< BLOCK_COUNTS;i++){
+             block.add(new Blocks(i*(BLOCK_SPACING + Blocks.BLOCK_HEIGHT )));
          }
 
             points = 0;
-            Score= "0";
+            Score = ""+points;
             font = new BitmapFont();
             font.getData().setScale(4,4);
             fonthighscore = new BitmapFont();
@@ -72,19 +74,20 @@ public class PlayState extends State {
             Highscore="Best: 0";
             pauseState = new PauseState();
 
+
     }
 
     @Override
     protected void handleInput() {
         if(Gdx.input.justTouched() && pause!=1){
-
+        //for pausebtn
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
             cam.unproject(tmp);
             Rectangle textureBounds=new Rectangle(10,TheGaps.HEIGHT-pausebtn.getHeight(),pausebtn.getWidth(),pausebtn.getHeight());
 
             if(textureBounds.contains(tmp.x,tmp.y))
             {
-                pause = 1;
+                pause = 1; //paused
                 pauseState = new PauseState(ball.getPostion().x) ;
                 for(Blocks blocks : block) {
                     pauseState2.add(new PauseState(blocks.getPosBlock().x,blocks.getPosBlock().y));
@@ -94,19 +97,19 @@ public class PlayState extends State {
                 if(pause != 1){ball.move();}}
         }
         else if (Gdx.input.justTouched() && pause ==  1){
+            //for playbtn in pause
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
             cam.unproject(tmp);
             Rectangle textureBounds=new Rectangle((TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2),playbtn.getWidth(),playbtn.getHeight());
 
             if(textureBounds.contains(tmp.x,tmp.y))
             {
-                pause = 0;
-                //Settiing postion of objects after resume is pressed
+                pause = 0; //unpausing
+                //Setting position of objects after resume is pressed
                 ball.setPosition(PauseState.ballpos.getFloat("pos"));
 
                 for(int i = 0; i< BLOCK_COUNTS;i++) {
                    block.add(new Blocks(pauseState2.get(i).getblockPosx(), pauseState2.get(i).getblockPosy()));
-
                 }
 
             }
@@ -115,66 +118,72 @@ public class PlayState extends State {
 
     @Override
     public void update(float dt) {
-
-       if(Blocks.TEMP_COUNT == 1) {
-           if ((TheGaps.WIDTH / 2) - 20 <= ball.getPostion().x && ball.getPostion().x <= (TheGaps.WIDTH / 2) + 20) {
-
-               points++;
-               Score = "" + points;
-               if(points > prefs.getInteger("high")){
-                    prefs.putInteger("high",points);
-                    prefs.flush();
-               }
-           }
-       }
         handleInput();
         ball.update(dt);
 
 
-        if(pause!=1){
-        for(int i=0 ; i<BLOCK_COUNTS ; i++){
-            block.get(i).update(dt);
-        }
-        for(Blocks blocks : block) {
-            if (blocks.getPosBlock().y + Blocks.BLOCK_HEIGHT < 0) {
+        if (pause != 1) {
+            for (int i = 0; i < BLOCK_COUNTS; i++) {
+                block.get(i).update(dt);
+            }
+            for (Blocks blocks : block) {
+                if (blocks.getPosBlock().y + Blocks.BLOCK_HEIGHT < 0) {
 
-                if (points >= 10) {
-                    //for random positioning of the blocks in the x-axis
-                    blocks.reposition((float) (Math.random() * (TheGaps.WIDTH - blocks.getBlock().getWidth())), blocks.getPosBlock().y + ((Blocks.BLOCK_HEIGHT + BLOCK_SPACING) * BLOCK_COUNTS));
-                    //increases speed
-                    if (points >= 15) {
-                        Blocks.MOVEMENT = -400;
-                        if (points >= 25) {
-                            Blocks.MOVEMENT = -450;
-                            if (points >= 35) {
-                                Blocks.MOVEMENT = -500;
-                                if (points >= 45) {
-                                    Blocks.MOVEMENT = -550;
-                                    if (points >= 50) {
-                                        Blocks.MOVEMENT = -600;
-                                        if (points >= 60) {
-                                            Blocks.MOVEMENT = -700;
+                    if (points >= 10) {
+                        //for random positioning of the blocks in the x-axis
+                        blocks.reposition((float) (Math.random() * (TheGaps.WIDTH - blocks.getBlock().getWidth())), blocks.getPosBlock().y + ((Blocks.BLOCK_HEIGHT + BLOCK_SPACING) * BLOCK_COUNTS));
+                        //increases speed
+                        if (points >= 15) {
+                            Blocks.MOVEMENT = -400;
+                            if (points >= 25) {
+                                Blocks.MOVEMENT = -450;
+                                if (points >= 35) {
+                                    Blocks.MOVEMENT = -500;
+                                    if (points >= 45) {
+                                        Blocks.MOVEMENT = -550;
+                                        if (points >= 50) {
+                                            Blocks.MOVEMENT = -600;
+                                            if (points >= 60) {
+                                                Blocks.MOVEMENT = -700;
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                    //default postioning
+                    else {
+                        blocks.reposition((TheGaps.WIDTH / 2) - blocks.getBlock().getWidth() / 2, blocks.getPosBlock().y + ((Blocks.BLOCK_HEIGHT + BLOCK_SPACING) * BLOCK_COUNTS));
+                    }
                 }
-                //default postioning
-                else {
-                    blocks.reposition((TheGaps.WIDTH / 2) - blocks.getBlock().getWidth() / 2, blocks.getPosBlock().y + ((Blocks.BLOCK_HEIGHT + BLOCK_SPACING) * BLOCK_COUNTS));
+
+                if (blocks.collides(ball.getBounds())) {
+                    gsm.set(new GameOverState(gsm));
+                    x=1;
                 }
             }
-            if (blocks.collides(ball.getBounds())) {
-                System.out.println("colliding");
-                gsm.set(new GameOverState(gsm));
+        }
+
+        if (Blocks.TEMP_COUNT == 1) {
+            if ((TheGaps.WIDTH / 2) - 20 < ball.getPostion().x && ball.getPostion().x < (TheGaps.WIDTH / 2) + 20 ) {
+
+                if(x==0 ){
+                    points++;}
+
+                Score = "" + points;
+                if (points > prefs.getInteger("high")) {
+                    prefs.putInteger("high", points);
+                    prefs.flush();
+                }
             }
         }
-        }
-           cam.update();
-           Highscore = "Best: " + prefs.getInteger("high");
+
+        cam.update();
+        Highscore = "Best: " + prefs.getInteger("high");
+
     }
+
 
     @Override
     public void render(SpriteBatch sb) {
@@ -186,6 +195,7 @@ public class PlayState extends State {
         sb.begin();
         sb.draw(background,0,0,TheGaps.WIDTH,TheGaps.HEIGHT);
         sb.draw(ball.getBall(), ball.getPostion().x, ball.getPostion().y);
+
             for(Blocks blocks : block){
                 sb.draw(blocks.getBlock(),blocks.getPosBlock().x,blocks.getPosBlock().y);
             }
@@ -194,6 +204,7 @@ public class PlayState extends State {
         fonthighscore.setColor(Color.BLACK);
         fonthighscore.draw(sb,Highscore ,TheGaps.WIDTH-115, TheGaps.HEIGHT - 80);
         sb.draw(pausebtn,10,TheGaps.HEIGHT-pausebtn.getHeight());
+
         //pausemenu
         if(pause == 1){
             //background
@@ -215,12 +226,14 @@ public class PlayState extends State {
     public void dispose() {
         background.dispose();
         ball.dispose();
+        playbtn.dispose();
+        pausebtn.dispose();
 
         for(Blocks blocks : block){
             blocks.dispose();
         }
-
-
+        fonthighscore.dispose();
+        font.dispose();
 
     }
 

@@ -14,10 +14,10 @@ public class MenuBlocks  {
     private Texture block;
     private Vector2 posBlock;
 
+
     public Texture getBlock() {
          return block;
     }
-
 
     public Vector2 getPosBlock() {
         return posBlock;
@@ -30,15 +30,14 @@ public class MenuBlocks  {
 
     }
 
-
     public void reposition(float x, float y) {
         posBlock.set(x,y);
-
     }
 
 
     public void update(float dt) {
         posBlock.add(-Blocks.MOVEMENT*dt,0);
+
     }
 
 
