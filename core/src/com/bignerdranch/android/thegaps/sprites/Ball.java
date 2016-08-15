@@ -137,9 +137,6 @@ public class Ball {
         return boundball;
     }
 
-
-
-
     public void dispose(){
         ball.dispose();
         sound.dispose();

@@ -1,6 +1,7 @@
 package com.bignerdranch.android.thegaps.States;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -23,33 +24,35 @@ public class GameOverState extends State {
     private String Highscore,Score,Taunt;
     private String[] exclamations = {"Noob","LOL!","Try again","Getting there.","“Not bad”","Quite impressive","GG","Try hard","Almost there","A winner is you"};
     private  Texture retry;
+    public Sound sound;
 
 
     protected GameOverState(GameStateManager gsm) {
         super(gsm);
 
         background = new Texture("background4.png");
-        retry = new Texture("retry2.png");
+        retry = new Texture("retry_icon.png");
         cam.setToOrtho(false,TheGaps.WIDTH,TheGaps.HEIGHT);
         Gameover = "Gameover!";
-        font = new BitmapFont();
-        font.getData().setScale(5,5);
+        font = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        font.getData().setScale(2,4);
+        sound = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
 
 
         if (PlayState.prefs.contains("high")) {
 
-            Highscore = "HighScore: " + PlayState.prefs.getInteger("high");
-            fontscore= new BitmapFont();
-            fontscore.getData().setScale(3,5);
+            Highscore = "HighScore:" + PlayState.prefs.getInteger("high");
+            fontscore= new BitmapFont(Gdx.files.internal("font.fnt"));
+            fontscore.getData().setScale(2,2);
 
         }
 
         Score ="Score: " + PlayState.points;
         Taunt = exclamations[0];
-        fontscorern = new BitmapFont();
-        fontscorern.getData().setScale(3,5);
-        fonttaunt = new BitmapFont();
-        fonttaunt.getData().setScale(3,4);
+        fontscorern = new BitmapFont(Gdx.files.internal("font.fnt"));
+        fontscorern.getData().setScale(2,2);
+        fonttaunt = new BitmapFont(Gdx.files.internal("font.fnt"));
+        fonttaunt.getData().setScale(2,2);
         Blocks.MOVEMENT = -300;
     }
 
@@ -62,7 +65,7 @@ public class GameOverState extends State {
             Rectangle textureBounds = new Rectangle((TheGaps.WIDTH/2)-(retry.getWidth()/2),20,retry.getWidth(),retry.getHeight());
 
             if(textureBounds.contains(tmp.x,tmp.y))
-            {
+            {   sound.play(.5f);
                 PlayState.x=0;
                 gsm.set(new PlayState(gsm));
             }
@@ -107,14 +110,14 @@ public class GameOverState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background,0,0, TheGaps.WIDTH,TheGaps.HEIGHT);
-        font.setColor(Color.BLACK);
-        font.draw(sb, Gameover, 30, 600);
-        fontscorern.setColor(Color.BLACK);
-        fontscorern.draw(sb,Score,30,500);
-        fontscore.setColor(Color.BLACK);
-        fontscore.draw(sb,Highscore,30,400);
-        fonttaunt.setColor(Color.BLACK);
-        fonttaunt.draw(sb,Taunt,20,300);
+        font.setColor(Color.MAROON);
+        font.draw(sb, Gameover, 5, 700);
+        fontscorern.setColor(Color.MAROON);
+        fontscorern.draw(sb,Score,5,500);
+        fontscore.setColor(Color.MAROON);
+        fontscore.draw(sb,Highscore,5 ,400);
+        fonttaunt.setColor(Color.MAROON);
+        fonttaunt.draw(sb,Taunt,10,300);
         sb.draw(retry,TheGaps.WIDTH/2 - retry.getWidth()/2,20);
         //System.out.println(TheGaps.WIDTH/2 - retry.getWidth()/2);
         sb.end();
@@ -128,7 +131,6 @@ public class GameOverState extends State {
         fonttaunt.dispose();
         fontscore.dispose();
         fontscorern.dispose();
-
-
+        sound.dispose();
     }
 }

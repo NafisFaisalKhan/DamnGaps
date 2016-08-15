@@ -32,7 +32,7 @@ public class MenuState extends State {
 
             if(textureBounds.contains(tmp.x,tmp.y))
             {
-               // sound.play(.5f);
+                sound.play(.5f);
                 gsm.set(new PlayState(gsm));
             }
 
@@ -44,12 +44,12 @@ public class MenuState extends State {
         super(gsm);
         cam.setToOrtho(false,TheGaps.WIDTH,TheGaps.HEIGHT);
         background= new Texture("background.png");
-        playbtn = new Texture("playbtn2.png");
+        playbtn = new Texture("playbtn4.png");
         block = new ArrayList<MenuBlocks>();
         for(int i = 0; i < PlayState.BLOCK_COUNTS;i++){
             block.add(new MenuBlocks(i*(PlayState.BLOCK_SPACING + Blocks.BLOCK_HEIGHT )));
         }
-        sound = Gdx.audio.newSound(Gdx.files.internal("Blop_sound.ogg"));
+        sound = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
     }
 
     @Override
@@ -90,6 +90,7 @@ public class MenuState extends State {
         for(MenuBlocks blocks : block){
             blocks.dispose();
         }
+        sound.dispose();
 
 
     }

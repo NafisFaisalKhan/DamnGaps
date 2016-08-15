@@ -2,6 +2,7 @@ package com.bignerdranch.android.thegaps.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -36,6 +37,9 @@ public class PlayState extends State {
     public static int pause = 0;
     private PauseState pauseState;
     public static int x = 0;
+    public Sound sound;
+    public Sound sound2;
+    public Sound sound3;
 
 
     public PlayState(GameStateManager gsm) {
@@ -53,8 +57,11 @@ public class PlayState extends State {
          block = new ArrayList<Blocks>();
          pauseState2 = new ArrayList<PauseState>();
          pausebtn = new Texture("media_pause.png");
-         playbtn = new Texture("playbtn2.png");
+         playbtn = new Texture("playbtn4.png");
          bk = new Texture("pausebk.png");
+         sound = Gdx.audio.newSound(Gdx.files.internal("crash.mp3"));
+         sound2 = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
+         sound3 = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
 
           for(int i = 0; i< BLOCK_COUNTS;i++){
              block.add(new Blocks(i*(BLOCK_SPACING + Blocks.BLOCK_HEIGHT )));
@@ -62,10 +69,10 @@ public class PlayState extends State {
 
             points = 0;
             Score = ""+points;
-            font = new BitmapFont();
-            font.getData().setScale(4,4);
-            fonthighscore = new BitmapFont();
-            fonthighscore.getData().setScale(2,2);
+            font = new BitmapFont(Gdx.files.internal("font2.fnt"));
+            font.getData().setScale(2,2);
+            fonthighscore = new BitmapFont(Gdx.files.internal("font.fnt"));
+            fonthighscore.getData().setScale(1,1);
             prefs = Gdx.app.getPreferences("saved_highscore");
             if(prefs.getInteger("high")== 0){
                 prefs.putInteger("high",0);
@@ -86,7 +93,7 @@ public class PlayState extends State {
             Rectangle textureBounds=new Rectangle(10,TheGaps.HEIGHT-pausebtn.getHeight(),pausebtn.getWidth(),pausebtn.getHeight());
 
             if(textureBounds.contains(tmp.x,tmp.y))
-            {
+            {   sound3.play(.5f) ;
                 pause = 1; //paused
                 pauseState = new PauseState(ball.getPostion().x) ;
                 for(Blocks blocks : block) {
@@ -104,6 +111,7 @@ public class PlayState extends State {
 
             if(textureBounds.contains(tmp.x,tmp.y))
             {
+                sound2.play(.5f);
                 pause = 0; //unpausing
                 //Setting position of objects after resume is pressed
                 ball.setPosition(PauseState.ballpos.getFloat("pos"));
@@ -159,6 +167,7 @@ public class PlayState extends State {
                 }
 
                 if (blocks.collides(ball.getBounds())) {
+                    sound.play(.9f);
                     gsm.set(new GameOverState(gsm));
                     x=1;
                 }
@@ -200,9 +209,9 @@ public class PlayState extends State {
                 sb.draw(blocks.getBlock(),blocks.getPosBlock().x,blocks.getPosBlock().y);
             }
         font.setColor(Color.BLACK);
-        font.draw(sb, Score, TheGaps.WIDTH -65, TheGaps.HEIGHT -10);
+        font.draw(sb, Score, TheGaps.WIDTH - 75, TheGaps.HEIGHT - 20);
         fonthighscore.setColor(Color.BLACK);
-        fonthighscore.draw(sb,Highscore ,TheGaps.WIDTH-115, TheGaps.HEIGHT - 80);
+        fonthighscore.draw(sb,Highscore ,TheGaps.WIDTH-120, TheGaps.HEIGHT - 90);
         sb.draw(pausebtn,10,TheGaps.HEIGHT-pausebtn.getHeight());
 
         //pausemenu
@@ -228,13 +237,14 @@ public class PlayState extends State {
         ball.dispose();
         playbtn.dispose();
         pausebtn.dispose();
-
         for(Blocks blocks : block){
             blocks.dispose();
         }
         fonthighscore.dispose();
         font.dispose();
-
+        sound.dispose();
+        sound2.dispose();
+        sound3.dispose();
     }
 
     private void randomizer(){
