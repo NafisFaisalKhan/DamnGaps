@@ -64,8 +64,11 @@ public class GameOverState extends State {
             cam.unproject(tmp);
             Rectangle textureBounds = new Rectangle((TheGaps.WIDTH/2)-(retry.getWidth()/2),20,retry.getWidth(),retry.getHeight());
 
-            if(textureBounds.contains(tmp.x,tmp.y))
-            {   sound.play(.5f);
+            if(textureBounds.contains(tmp.x,tmp.y)){
+             if(MenuState.tempSound == 0) {
+                System.out.println(MenuState.tempSound);
+                sound.play(.5f);
+            }
                 PlayState.x=0;
                 gsm.set(new PlayState(gsm));
             }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.bignerdranch.android.thegaps.States.MenuState;
 import com.bignerdranch.android.thegaps.TheGaps;
 
 import java.util.Random;
@@ -63,14 +64,18 @@ public class Ball {
         boundball.setPosition(postion.x, postion.y);
 
         if (postion.x < TheGaps.WIDTH/2+150 && postion.x > TheGaps.WIDTH/2+100 && x == 0 && y==1){
+            if(MenuState.tempSound==0) {
                 sound.play(.5f);
+            }
 
             x=1;
             y=0;
 
         }
        else if (postion.x < TheGaps.WIDTH/2-150 && postion.x > TheGaps.WIDTH/2-200 && x==1 && y==0){
+            if(MenuState.tempSound==0) {
                 sound.play(.5f);
+            }
 
            x=0;
            y=1;

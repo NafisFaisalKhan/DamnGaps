@@ -17,9 +17,11 @@ import java.util.ArrayList;
  */
 public class MenuState extends State {
     private Texture background;
-    private Texture playbtn;
+    private Texture playbtn,music;
     public ArrayList<MenuBlocks> block;
     private Sound sound;
+    private static String mMusic = "sound_on.png";
+    public static int tempSound = 0;
 
 
     @Override
@@ -28,12 +30,22 @@ public class MenuState extends State {
 
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
             cam.unproject(tmp);
-            Rectangle textureBounds=new Rectangle((TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2),playbtn.getWidth(),playbtn.getHeight());
+            Rectangle textureBounds= new Rectangle((TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2),playbtn.getWidth(),playbtn.getHeight());
+            Rectangle textureBounds2= new Rectangle(TheGaps.WIDTH/2-music.getWidth()/2,300-music.getHeight()-50,music.getWidth(),music.getHeight()) ;
+            if(textureBounds.contains(tmp.x,tmp.y)) {
+                if(tempSound==0) {
+                    sound.play(.5f);
+                }
+                    gsm.set(new PlayState(gsm));
+            }
+            if(textureBounds2.contains(tmp.x,tmp.y)&&tempSound ==0){
+                mMusic ="sound_off.png";
+                tempSound = 1;
 
-            if(textureBounds.contains(tmp.x,tmp.y))
-            {
+            }else if (textureBounds2.contains(tmp.x,tmp.y)&&tempSound ==1){
+                mMusic ="sound_on.png";
+                tempSound =0;
                 sound.play(.5f);
-                gsm.set(new PlayState(gsm));
             }
 
 
@@ -50,12 +62,13 @@ public class MenuState extends State {
             block.add(new MenuBlocks(i*(PlayState.BLOCK_SPACING + Blocks.BLOCK_HEIGHT )));
         }
         sound = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
+        music = new Texture(mMusic);
     }
 
     @Override
     public void update(float dt) {
         handleInput();
-
+        music = new Texture(mMusic);
         for(int i=0 ; i<PlayState.BLOCK_COUNTS ; i++){
             block.get(i).update(dt);
 
@@ -74,7 +87,7 @@ public class MenuState extends State {
         sb.begin();
         sb.draw(background,0,0, TheGaps.WIDTH,TheGaps.HEIGHT);
         sb.draw(playbtn,(TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2));
-
+        sb.draw(music,TheGaps.WIDTH/2-music.getWidth()/2,300-music.getHeight()-50);
         for(MenuBlocks blocks : block){
             sb.draw(blocks.getBlock(),blocks.getPosBlock().x,blocks.getPosBlock().y);
         }
@@ -91,6 +104,7 @@ public class MenuState extends State {
             blocks.dispose();
         }
         sound.dispose();
+        music.dispose();
 
 
     }

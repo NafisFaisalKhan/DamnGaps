@@ -25,7 +25,7 @@ public class PlayState extends State {
     public static final int BLOCK_SPACING = 100;
     public static final int BLOCK_COUNTS = 4;
     private Ball ball;
-    private Texture background,bk,playbtn;
+    private Texture background,bk,playbtn,music;
     public static Texture pausebtn;
     public ArrayList<Blocks> block;
     public ArrayList<PauseState> pauseState2;
@@ -40,6 +40,7 @@ public class PlayState extends State {
     public Sound sound;
     public Sound sound2;
     public Sound sound3;
+    private static String mMusic = "sound_on.png";
 
 
     public PlayState(GameStateManager gsm) {
@@ -62,6 +63,7 @@ public class PlayState extends State {
          sound = Gdx.audio.newSound(Gdx.files.internal("crash.mp3"));
          sound2 = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
          sound3 = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
+         music = new Texture(mMusic);
 
           for(int i = 0; i< BLOCK_COUNTS;i++){
              block.add(new Blocks(i*(BLOCK_SPACING + Blocks.BLOCK_HEIGHT )));
@@ -92,8 +94,10 @@ public class PlayState extends State {
             cam.unproject(tmp);
             Rectangle textureBounds=new Rectangle(10,TheGaps.HEIGHT-pausebtn.getHeight(),pausebtn.getWidth(),pausebtn.getHeight());
 
-            if(textureBounds.contains(tmp.x,tmp.y))
-            {   sound3.play(.5f) ;
+            if(textureBounds.contains(tmp.x,tmp.y)) {
+                if(MenuState.tempSound==0) {
+                sound3.play(.5f);
+            }
                 pause = 1; //paused
                 pauseState = new PauseState(ball.getPostion().x) ;
                 for(Blocks blocks : block) {
@@ -108,10 +112,13 @@ public class PlayState extends State {
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
             cam.unproject(tmp);
             Rectangle textureBounds=new Rectangle((TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2),playbtn.getWidth(),playbtn.getHeight());
+            Rectangle textureBounds2= new Rectangle(TheGaps.WIDTH/2-music.getWidth()/2,300-music.getHeight()-50,music.getWidth(),music.getHeight()) ;
 
             if(textureBounds.contains(tmp.x,tmp.y))
             {
-                sound2.play(.5f);
+                if(MenuState.tempSound==0) {
+                    sound2.play(.5f);
+                }
                 pause = 0; //unpausing
                 //Setting position of objects after resume is pressed
                 ball.setPosition(PauseState.ballpos.getFloat("pos"));
@@ -120,6 +127,14 @@ public class PlayState extends State {
                    block.add(new Blocks(pauseState2.get(i).getblockPosx(), pauseState2.get(i).getblockPosy()));
                 }
 
+            } if(textureBounds2.contains(tmp.x,tmp.y)&& MenuState.tempSound ==0){
+                mMusic ="sound_off.png";
+                MenuState.tempSound = 1;
+
+            }else if (textureBounds2.contains(tmp.x,tmp.y)&& MenuState.tempSound ==1){
+                mMusic ="sound_on.png";
+                MenuState.tempSound =0;
+                sound2.play(.5f);
             }
         }
     }
@@ -128,7 +143,7 @@ public class PlayState extends State {
     public void update(float dt) {
         handleInput();
         ball.update(dt);
-
+        music = new Texture(mMusic);
 
         if (pause != 1) {
             for (int i = 0; i < BLOCK_COUNTS; i++) {
@@ -167,7 +182,10 @@ public class PlayState extends State {
                 }
 
                 if (blocks.collides(ball.getBounds())) {
-                    sound.play(.9f);
+                    if(MenuState.tempSound == 0) {
+                        System.out.println(MenuState.tempSound);
+                        sound.play(.5f);
+                    }
                     gsm.set(new GameOverState(gsm));
                     x=1;
                 }
@@ -224,6 +242,7 @@ public class PlayState extends State {
             c = sb.getColor();
             sb.setColor(c.r, c.g, c.b, 1f);
             sb.draw(playbtn,(TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2));
+            sb.draw(music,TheGaps.WIDTH/2-music.getWidth()/2,300-music.getHeight()-50);
 
         }
 
@@ -245,6 +264,8 @@ public class PlayState extends State {
         sound.dispose();
         sound2.dispose();
         sound3.dispose();
+        music.dispose();
+
     }
 
     private void randomizer(){
