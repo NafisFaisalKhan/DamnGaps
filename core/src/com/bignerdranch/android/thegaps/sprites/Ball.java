@@ -100,7 +100,7 @@ public class Ball {
 
         switch (randomNum){
             case 1: {
-                mBall = "8ball.png";
+                mBall = "ball2.png";
                 break;
             }
             case 2: {
@@ -112,15 +112,15 @@ public class Ball {
                 break;
             }
             case 6: {
-                mBall = "poke.png";
+                mBall = "blueball.png";
                 break;
             }
             case 7: {
-                mBall = "red.png";
+                mBall = "redball.png";
                 break;
             }
             case 8: {
-                mBall = "volley.png";
+                mBall = "ledlightblue.png";
                 break;
             }
             case 9: {
@@ -132,7 +132,7 @@ public class Ball {
                 break;
             }
             default: {
-                mBall = "poke.png";
+                mBall = "blueball.png";
                 break;
             }
         }

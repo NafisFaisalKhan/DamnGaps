@@ -39,6 +39,7 @@ public class GameOverState extends State {
         sound = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
 
 
+
         if (PlayState.prefs.contains("high")) {
 
             Highscore = "HighScore:" + PlayState.prefs.getInteger("high");

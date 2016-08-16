@@ -20,7 +20,7 @@ public class MenuState extends State {
     private Texture playbtn,music;
     public ArrayList<MenuBlocks> block;
     private Sound sound;
-    private static String mMusic = "sound_on.png";
+    private static String mMusic = "sound_on2.png";
     public static int tempSound = 0;
 
 
@@ -39,11 +39,11 @@ public class MenuState extends State {
                     gsm.set(new PlayState(gsm));
             }
             if(textureBounds2.contains(tmp.x,tmp.y)&&tempSound ==0){
-                mMusic ="sound_off.png";
+                mMusic ="sound_off2.png";
                 tempSound = 1;
 
             }else if (textureBounds2.contains(tmp.x,tmp.y)&&tempSound ==1){
-                mMusic ="sound_on.png";
+                mMusic ="sound_on2.png";
                 tempSound =0;
                 sound.play(.5f);
             }

@@ -40,7 +40,7 @@ public class PlayState extends State {
     public Sound sound;
     public Sound sound2;
     public Sound sound3;
-    private static String mMusic = "sound_on.png";
+    private static String mMusic = "sound_on2.png";
     public static int temptap = 0;
 
 
@@ -133,11 +133,11 @@ public class PlayState extends State {
                 }
 
             } if(textureBounds2.contains(tmp.x,tmp.y)&& MenuState.tempSound ==0){
-                mMusic ="sound_off.png";
+                mMusic ="sound_off2.png";
                 MenuState.tempSound = 1;
 
             }else if (textureBounds2.contains(tmp.x,tmp.y)&& MenuState.tempSound ==1){
-                mMusic ="sound_on.png";
+                mMusic ="sound_on2.png";
                 MenuState.tempSound =0;
                 sound2.play(.5f);
             }
