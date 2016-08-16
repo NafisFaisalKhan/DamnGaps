@@ -22,7 +22,7 @@ public class GameOverState extends State {
     BitmapFont fontscorern;
     BitmapFont fonttaunt;
     private String Highscore,Score,Taunt;
-    private String[] exclamations = {"Noob","LOL!","Try again","Getting there.","“Not bad”","Quite impressive","GG","Try hard","Almost there","A winner is you"};
+    private String[] exclamations = {"Noob!","LOL!","HEHE!","Almost!","Not bad!","Impressive!","Damn!","Try hard!","Almost there!","A winner is you!"};
     private  Texture retry;
     public Sound sound;
 
@@ -54,6 +54,7 @@ public class GameOverState extends State {
         fonttaunt = new BitmapFont(Gdx.files.internal("font.fnt"));
         fonttaunt.getData().setScale(2,2);
         Blocks.MOVEMENT = -300;
+        PlayState.temptap = 1;
     }
 
     @Override
@@ -66,14 +67,11 @@ public class GameOverState extends State {
 
             if(textureBounds.contains(tmp.x,tmp.y)){
              if(MenuState.tempSound == 0) {
-                System.out.println(MenuState.tempSound);
                 sound.play(.5f);
             }
                 PlayState.x=0;
                 gsm.set(new PlayState(gsm));
             }
-
-
         }
     }
 
@@ -118,7 +116,7 @@ public class GameOverState extends State {
         fontscorern.setColor(Color.MAROON);
         fontscorern.draw(sb,Score,5,500);
         fontscore.setColor(Color.MAROON);
-        fontscore.draw(sb,Highscore,5 ,400);
+        fontscore.draw(sb,Highscore,3 ,400);
         fonttaunt.setColor(Color.MAROON);
         fonttaunt.draw(sb,Taunt,10,300);
         sb.draw(retry,TheGaps.WIDTH/2 - retry.getWidth()/2,20);

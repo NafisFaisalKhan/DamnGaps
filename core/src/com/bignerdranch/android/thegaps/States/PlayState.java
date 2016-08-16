@@ -30,8 +30,8 @@ public class PlayState extends State {
     public ArrayList<Blocks> block;
     public ArrayList<PauseState> pauseState2;
     public static int points;
-    private String Score,Highscore;
-    BitmapFont font,fonthighscore;
+    private String Score,Highscore,Tap;
+    BitmapFont font,fonthighscore,tap;
     public static Preferences prefs;
     private static String mBackground;
     public static int pause = 0;
@@ -41,6 +41,7 @@ public class PlayState extends State {
     public Sound sound2;
     public Sound sound3;
     private static String mMusic = "sound_on.png";
+    public static int temptap = 0;
 
 
     public PlayState(GameStateManager gsm) {
@@ -75,6 +76,8 @@ public class PlayState extends State {
             font.getData().setScale(2,2);
             fonthighscore = new BitmapFont(Gdx.files.internal("font.fnt"));
             fonthighscore.getData().setScale(1,1);
+            tap = new BitmapFont(Gdx.files.internal("font2.fnt"));
+            tap.getData().setScale(1,1);
             prefs = Gdx.app.getPreferences("saved_highscore");
             if(prefs.getInteger("high")== 0){
                 prefs.putInteger("high",0);
@@ -82,6 +85,7 @@ public class PlayState extends State {
             }
             Highscore="Best: 0";
             pauseState = new PauseState();
+            Tap = "Tap!";
 
 
     }
@@ -105,7 +109,8 @@ public class PlayState extends State {
                 }
 
             }else{
-                if(pause != 1){ball.move();}}
+                if(pause != 1){ball.move();
+                temptap =1;}}
         }
         else if (Gdx.input.justTouched() && pause ==  1){
             //for playbtn in pause
@@ -183,7 +188,6 @@ public class PlayState extends State {
 
                 if (blocks.collides(ball.getBounds())) {
                     if(MenuState.tempSound == 0) {
-                        System.out.println(MenuState.tempSound);
                         sound.play(.5f);
                     }
                     gsm.set(new GameOverState(gsm));
@@ -226,6 +230,10 @@ public class PlayState extends State {
             for(Blocks blocks : block){
                 sb.draw(blocks.getBlock(),blocks.getPosBlock().x,blocks.getPosBlock().y);
             }
+        if(temptap==0 ){
+            tap.setColor(Color.BLACK);
+            tap.draw(sb,Tap,TheGaps.WIDTH/2-40,TheGaps.HEIGHT-150);
+        }
         font.setColor(Color.BLACK);
         font.draw(sb, Score, TheGaps.WIDTH - 75, TheGaps.HEIGHT - 20);
         fonthighscore.setColor(Color.BLACK);
