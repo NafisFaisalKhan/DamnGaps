@@ -56,7 +56,7 @@ public class MenuState extends State {
         super(gsm);
         cam.setToOrtho(false,TheGaps.WIDTH,TheGaps.HEIGHT);
         background= new Texture("background.png");
-        playbtn = new Texture("playbtn4.png");
+        playbtn = new Texture("playbtn5.png");
         block = new ArrayList<MenuBlocks>();
         for(int i = 0; i < PlayState.BLOCK_COUNTS;i++){
             block.add(new MenuBlocks(i*(PlayState.BLOCK_SPACING + Blocks.BLOCK_HEIGHT )));

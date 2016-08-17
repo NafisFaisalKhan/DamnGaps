@@ -59,7 +59,7 @@ public class PlayState extends State {
          block = new ArrayList<Blocks>();
          pauseState2 = new ArrayList<PauseState>();
          pausebtn = new Texture("media_pause.png");
-         playbtn = new Texture("playbtn4.png");
+         playbtn = new Texture("playbtn5.png");
          bk = new Texture("pausebk.png");
          sound = Gdx.audio.newSound(Gdx.files.internal("crash.mp3"));
          sound2 = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
