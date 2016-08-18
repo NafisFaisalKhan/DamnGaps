@@ -22,7 +22,7 @@ public class GameOverState extends State {
     BitmapFont fontscorern;
     BitmapFont fonttaunt;
     private String Highscore,Score,Taunt;
-    private String[] exclamations = {"Noob!","LOL!","HEHE!","Almost!","Not bad!","Impressive!","Damn!","Try hard!","Almost there!","A winner is you!"};
+    private String[] exclamations = {"Noob!","LOL!","Still A Noob!","HEHE!","Not bad!","Impressive!","Damn!","Try hard!","Almost there!","You The Boss!"};
     private  Texture retry;
     public Sound sound;
 
@@ -35,7 +35,7 @@ public class GameOverState extends State {
         cam.setToOrtho(false,TheGaps.WIDTH,TheGaps.HEIGHT);
         Gameover = "Gameover!";
         font = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        font.getData().setScale(2,4);
+        font.getData().setScale(2,3);
         sound = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
 
 
@@ -71,7 +71,7 @@ public class GameOverState extends State {
                 sound.play(.5f);
             }
                 PlayState.x=0;
-                gsm.set(new PlayState(gsm));
+                gsm.set(new MenuState(gsm));
             }
         }
     }

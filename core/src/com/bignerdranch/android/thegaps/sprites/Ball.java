@@ -44,7 +44,7 @@ public class Ball {
         postion = new Vector3(x, y, 0);
         velocity = new Vector3(0,0,0);
         ball = new Texture(mBall);
-        boundball = new Rectangle(postion.x, postion.y, ball.getWidth()-5, ball.getHeight()-5);
+        boundball = new Rectangle(postion.x, postion.y, ball.getWidth(), ball.getHeight());
     }
 
     public void update(float dt) {
@@ -104,7 +104,7 @@ public class Ball {
                 break;
             }
             case 2: {
-                mBall = "aqua.png";
+                mBall = "redball2.png";
                 break;
             }
             case 5: {

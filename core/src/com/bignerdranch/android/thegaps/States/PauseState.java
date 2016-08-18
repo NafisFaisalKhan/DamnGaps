@@ -12,8 +12,21 @@ public class PauseState {
     public static Preferences ballpos;
     public static Preferences blockposx;
     public static Preferences blockposy;
+    public static Preferences soundstuff;
+    public static int x ;
 
     protected PauseState(){}
+
+    protected PauseState(int sound){
+
+        soundstuff = Gdx.app.getPreferences("sound_onoff");
+
+        soundstuff.putInteger("sound",sound);
+        soundstuff.flush();
+    }
+    public void setsound(){
+
+    }
 
     protected PauseState(float ballx) {
         ballpos = Gdx.app.getPreferences("ball_pos");
@@ -32,12 +45,14 @@ public class PauseState {
     }
 
     public float getblockPosx(){
-        System.out.println("calledx");
         return blockposx.getFloat("posx");
     }
     public float getblockPosy(){
-        System.out.println("calledy");
-        return blockposy.getFloat("posy");
+         return blockposy.getFloat("posy");
+    }
+
+    public int getsound(){
+        return soundstuff.getInteger("sound");
     }
 
     protected void handleInput() {
@@ -49,25 +64,7 @@ public class PauseState {
     }
 
     public void render(SpriteBatch sb) {
-//        Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
-//        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-//
-//        sb.setProjectionMatrix(cam.combined);
-//        sb.begin();
-//        sb.enableBlending();
-//       // sb.draw(bk,0,0,TheGaps.WIDTH,TheGaps.HEIGHT);
-//        //sb.draw(playbtn,(TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2));
-//        //background
-//
-//        Color c = sb.getColor();
-//        sb.setColor(c.r, c.g, c.b, .6f); //set alpha to 1
-//        sb.draw(bk, 0, 0, 400, 800);
-//        //foreground
-//        c = sb.getColor();
-//        sb.setColor(c.r, c.g, c.b, 1f);//set alpha to 0.3
-//        sb.draw(playbtn,(TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2));
-//
-//        sb.end();
+
     }
 
 

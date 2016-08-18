@@ -2,7 +2,9 @@ package com.bignerdranch.android.thegaps.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -20,8 +22,10 @@ public class MenuState extends State {
     private Texture playbtn,music;
     public ArrayList<MenuBlocks> block;
     private Sound sound;
-    private static String mMusic = "sound_on2.png";
-    public static int tempSound = 0;
+    private static String mMusic ;
+    public static int tempSound ;
+    private BitmapFont titlefont;
+    private String title = "ThemGaps!";
 
 
     @Override
@@ -31,21 +35,24 @@ public class MenuState extends State {
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
             cam.unproject(tmp);
             Rectangle textureBounds= new Rectangle((TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2),playbtn.getWidth(),playbtn.getHeight());
-            Rectangle textureBounds2= new Rectangle(TheGaps.WIDTH/2-music.getWidth()/2,300-music.getHeight()-50,music.getWidth(),music.getHeight()) ;
+            Rectangle textureBounds2= new Rectangle(TheGaps.WIDTH/2-music.getWidth()/2+10,300-music.getHeight(),music.getWidth(),music.getHeight()) ;
             if(textureBounds.contains(tmp.x,tmp.y)) {
-                if(tempSound==0) {
+                if(tempSound == 0) {
                     sound.play(.5f);
                 }
                     gsm.set(new PlayState(gsm));
             }
-            if(textureBounds2.contains(tmp.x,tmp.y)&&tempSound ==0){
+            if(textureBounds2.contains(tmp.x,tmp.y)&& tempSound == 0){
                 mMusic ="sound_off2.png";
                 tempSound = 1;
 
-            }else if (textureBounds2.contains(tmp.x,tmp.y)&&tempSound ==1){
+
+
+            }else if (textureBounds2.contains(tmp.x,tmp.y)&& tempSound == 1){
                 mMusic ="sound_on2.png";
-                tempSound =0;
+                tempSound = 0;
                 sound.play(.5f);
+
             }
 
 
@@ -62,7 +69,18 @@ public class MenuState extends State {
             block.add(new MenuBlocks(i*(PlayState.BLOCK_SPACING + Blocks.BLOCK_HEIGHT )));
         }
         sound = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
+
+        titlefont = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        titlefont.getData().setScale(2,3);
+
+        if(PlayState.y == 1){
+            if(tempSound == 0){
+                mMusic = "sound_on2.png";
+            }else{mMusic = "sound_off2.png";}
+        }
+        else{mMusic="sound_on2.png";}
         music = new Texture(mMusic);
+
     }
 
     @Override
@@ -87,10 +105,12 @@ public class MenuState extends State {
         sb.begin();
         sb.draw(background,0,0, TheGaps.WIDTH,TheGaps.HEIGHT);
         sb.draw(playbtn,(TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2));
-        sb.draw(music,TheGaps.WIDTH/2-music.getWidth()/2,300-music.getHeight()-50);
+        sb.draw(music,TheGaps.WIDTH/2-music.getWidth()/2+10,300-music.getHeight());
         for(MenuBlocks blocks : block){
             sb.draw(blocks.getBlock(),blocks.getPosBlock().x,blocks.getPosBlock().y);
         }
+        titlefont.setColor(Color.NAVY);
+        titlefont.draw(sb,title,5, 640);
         sb.end();
     }
 

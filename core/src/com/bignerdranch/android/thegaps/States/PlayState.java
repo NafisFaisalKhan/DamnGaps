@@ -36,11 +36,11 @@ public class PlayState extends State {
     private static String mBackground;
     public static int pause = 0;
     private PauseState pauseState;
-    public static int x = 0;
+    public static int x,y = 0;
     public Sound sound;
     public Sound sound2;
     public Sound sound3;
-    private static String mMusic = "sound_on2.png";
+    private static String mMusic;
     public static int temptap = 0;
 
 
@@ -64,8 +64,6 @@ public class PlayState extends State {
          sound = Gdx.audio.newSound(Gdx.files.internal("crash.mp3"));
          sound2 = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
          sound3 = Gdx.audio.newSound(Gdx.files.internal("menubtn2.mp3"));
-         music = new Texture(mMusic);
-
           for(int i = 0; i< BLOCK_COUNTS;i++){
              block.add(new Blocks(i*(BLOCK_SPACING + Blocks.BLOCK_HEIGHT )));
          }
@@ -86,9 +84,14 @@ public class PlayState extends State {
             Highscore="Best: 0";
             pauseState = new PauseState();
             Tap = "Tap!";
-
+        if(MenuState.tempSound == 0){
+            mMusic ="sound_on2.png";
+        }else{mMusic ="sound_off2.png";}
+        music = new Texture(mMusic);
+        y=1;
 
     }
+
 
     @Override
     protected void handleInput() {
@@ -96,7 +99,7 @@ public class PlayState extends State {
         //for pausebtn
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
             cam.unproject(tmp);
-            Rectangle textureBounds=new Rectangle(10,TheGaps.HEIGHT-pausebtn.getHeight(),pausebtn.getWidth(),pausebtn.getHeight());
+            Rectangle textureBounds=new Rectangle(10,TheGaps.HEIGHT-pausebtn.getHeight()-10,pausebtn.getWidth(),pausebtn.getHeight());
 
             if(textureBounds.contains(tmp.x,tmp.y)) {
                 if(MenuState.tempSound==0) {
@@ -110,14 +113,14 @@ public class PlayState extends State {
 
             }else{
                 if(pause != 1){ball.move();
-                temptap =1;}}
+                temptap = 1;}}
         }
         else if (Gdx.input.justTouched() && pause ==  1){
             //for playbtn in pause
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
             cam.unproject(tmp);
             Rectangle textureBounds=new Rectangle((TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2),playbtn.getWidth(),playbtn.getHeight());
-            Rectangle textureBounds2= new Rectangle(TheGaps.WIDTH/2-music.getWidth()/2,300-music.getHeight()-50,music.getWidth(),music.getHeight()) ;
+            Rectangle textureBounds2= new Rectangle(TheGaps.WIDTH/2-music.getWidth()/2 +10,300-music.getHeight(),music.getWidth(),music.getHeight()) ;
 
             if(textureBounds.contains(tmp.x,tmp.y))
             {
@@ -132,14 +135,16 @@ public class PlayState extends State {
                    block.add(new Blocks(pauseState2.get(i).getblockPosx(), pauseState2.get(i).getblockPosy()));
                 }
 
-            } if(textureBounds2.contains(tmp.x,tmp.y)&& MenuState.tempSound ==0){
+            } if(textureBounds2.contains(tmp.x,tmp.y)&& MenuState.tempSound == 0){
                 mMusic ="sound_off2.png";
                 MenuState.tempSound = 1;
 
-            }else if (textureBounds2.contains(tmp.x,tmp.y)&& MenuState.tempSound ==1){
+
+            }else if (textureBounds2.contains(tmp.x,tmp.y)&& MenuState.tempSound == 1){
                 mMusic ="sound_on2.png";
                 MenuState.tempSound =0;
                 sound2.play(.5f);
+
             }
         }
     }
@@ -173,6 +178,12 @@ public class PlayState extends State {
                                             Blocks.MOVEMENT = -600;
                                             if (points >= 60) {
                                                 Blocks.MOVEMENT = -700;
+                                                if (points >= 70) {
+                                                    Blocks.MOVEMENT = -800;
+                                                    if (points >= 80) {
+                                                        Blocks.MOVEMENT = -900;
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -237,8 +248,8 @@ public class PlayState extends State {
         font.setColor(Color.BLACK);
         font.draw(sb, Score, TheGaps.WIDTH - 75, TheGaps.HEIGHT - 20);
         fonthighscore.setColor(Color.BLACK);
-        fonthighscore.draw(sb,Highscore ,TheGaps.WIDTH-120, TheGaps.HEIGHT - 90);
-        sb.draw(pausebtn,10,TheGaps.HEIGHT-pausebtn.getHeight());
+        fonthighscore.draw(sb,Highscore ,TheGaps.WIDTH-115, TheGaps.HEIGHT - 90);
+        sb.draw(pausebtn,10,TheGaps.HEIGHT-pausebtn.getHeight()-10);
 
         //pausemenu
         if(pause == 1){
@@ -250,7 +261,7 @@ public class PlayState extends State {
             c = sb.getColor();
             sb.setColor(c.r, c.g, c.b, 1f);
             sb.draw(playbtn,(TheGaps.WIDTH/2)-(playbtn.getWidth()/2),(TheGaps.HEIGHT/2)-(playbtn.getHeight()/2));
-            sb.draw(music,TheGaps.WIDTH/2-music.getWidth()/2,300-music.getHeight()-50);
+            sb.draw(music,TheGaps.WIDTH/2-music.getWidth()/2+10,300-music.getHeight());
 
         }
 
