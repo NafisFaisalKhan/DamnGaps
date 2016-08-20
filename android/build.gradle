@@ -15,7 +15,7 @@ android {
         instrumentTest.setRoot('tests')
     }
     defaultConfig {
-        applicationId "com.bignerdranch.android.thegaps"
+        applicationId "com.IceBug.android.themgaps"
         minSdkVersion 8
         targetSdkVersion 24
     }
